@@ -1,28 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
+
 
 //include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import todolight from "../../img/todolight.png";
+import tododark from "../../img/tododark.png";
 
 //create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-            
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+const Home = () => {
+	const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+	return (
+
+		<div
+			className={`d-flex flex-column ${isDarkTheme ? "text-light" : "text-secondary"}`}
+			style={{
+				minHeight: "100vh",
+				backgroundImage: `url(${isDarkTheme ? tododark : todolight})`,
+				backgroundSize: "cover",
+				backgroundRepeat: "no-repeat",
+				backgroundPosition: "center"
+			}}
+		>
+			<div className="flex-grow-1"> {/* Content */}
+				<div className="container">
+					<div className="row align-items-center" style={{ minHeight: "100vh" }}>
+						<div className="col-6 d-flex justify-content-center">
+							<div>input goes here</div>
+						</div>
+						<div className="col-6">
+							<div className="bg-dark">list goes here</div>
+							<div>list goes here</div>
+							<div>list goes here</div>
+							<div>list goes here</div>
+							<div>list goes here</div>
+							<div>list goes here</div>
+							<div>list goes here</div>
+							<div>list goes here</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer
+				className="d-flex justify-content-center align-items-center py-3 border-0"
+				style={{
+					backdropFilter: "blur(10px)",
+					height: "12px" // increase height so it's visible
+				}}
+			>
+				<span>
+					© 2025 Phoenix Reynolds
+				</span>
+			</footer>
 		</div>
 	);
 };
+
 
 export default Home;
