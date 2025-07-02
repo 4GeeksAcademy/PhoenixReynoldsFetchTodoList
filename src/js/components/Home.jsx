@@ -4,6 +4,8 @@ import Todos from "./Todos.jsx";
 //include images into your bundle
 import todolight from "../../img/todolight.png";
 import tododark from "../../img/tododark.png";
+import todologolight3 from "../../img/todologolight3.png";
+import todologodark from "../../img/todologodark.png";
 
 //create your first component
 
@@ -51,18 +53,28 @@ const Home = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-	  const data = await response.json();
-	  setInputValue("")
-	  getTodos();
-	  return data;
+      const data = await response.json();
+      setInputValue("");
+      getTodos();
+      return data;
     }
   };
 
+  const deleteAllTodos = async () => {
+  while (todos.length > 0) {
+    const todo = todos[0];
+    await fetch(`https://playground.4geeks.com/todo/todos/${todo.id}`, {
+      method: "DELETE",
+    });
+    todos.shift();
+  }
+  getTodos();
+};
+
   return (
     <div
-      className={`d-flex flex-column ${
-        isDarkTheme ? "text-light" : "text-secondary"
-      }`}
+      className={`d-flex flex-column ${isDarkTheme ? "text-light" : "text-dark"
+        }`}
       style={{
         minHeight: "100vh",
         backgroundImage: `url(${isDarkTheme ? tododark : todolight})`,
@@ -75,15 +87,56 @@ const Home = () => {
         {" "}
         {/* Content */}
         <div className="container">
+          <div className="mx-auto" style={{ height: "15rem", width: "15rem" }}>
+            <img
+              src={isDarkTheme ? todologodark : todologolight3}
+              alt="Site Logo"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                display: "block"
+              }}
+            />
+          </div>
+        </div>
+        <div className="container">
           <div
             className="row align-items-center"
-            style={{ minHeight: "100vh" }}
           >
             <div className="col-6 d-flex flex-column justify-content-center">
+
+              <div
+                className="rounded"
+                style={{
+                  backdropFilter: "blur(10px)",
+                  backgroundColor: isDarkTheme
+                    ? "rgba(80, 0, 145, 0.5)"
+                    : "rgba(255, 190, 40, 0.5)",
+                  overflow: "hidden",
+                }}
+              >
+                {" "}
+                <input
+                  className={`form-control ${isDarkTheme ? "dark-placeholder" : ""} border-0 focus-ring-0 px-3`}
+                  style={{
+                    backgroundColor: "rgba(255,255,255,0)",
+                    outline: "none",
+                    boxShadow: "none",
+                    border: "none",
+                    "::placeholder": {color: isDarkTheme ? "lightgrey" : "gray"}
+                  }}
+                  value={inputValue}
+                  placeholder="I need to..."
+                  onChange={(event) => setInputValue(event.target.value)}
+                  onKeyDown={(event) => postTodo(event)}
+                ></input>{" "}
+              </div>
+              <div>
               <button
-                className={`btn ${
-                  isDarkTheme ? "btn-dark" : "btn-light"
-                } border-0 mb-1`}
+              title={isDarkTheme ? "It's too dark!" : "It's too bright!"}
+                className={`btn rounded-circle ${isDarkTheme ? "btn-dark" : "btn-light"
+                  } border-0 mt-1`}
                 style={{
                   height: "2.5rem",
                   width: "2.5rem",
@@ -99,29 +152,25 @@ const Home = () => {
                   <i className="fas fa-regular fa-sun"></i>
                 )}
               </button>
-              <div
-                className="rounded"
+              <button
+                title="Delete all todos"
+                className={`btn rounded-circle ${isDarkTheme ? "btn-dark" : "btn-light"
+                  } border-0 mt-1 ms-1`}
                 style={{
-                  backdropFilter: "blur(10px)",
+                  height: "2.5rem",
+                  width: "2.5rem",
                   backgroundColor: isDarkTheme
                     ? "rgba(80, 0, 145, 0.5)"
                     : "rgba(255, 190, 40, 0.5)",
-                  overflow: "hidden",
                 }}
+                onClick={() => deleteAllTodos()}
               >
-                {" "}
-                <input
-                  className="border-0 focus-ring-0 px-1"
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0)",
-                    outline: "none",
-                    boxShadow: "none",
-                    border: "none",
-                  }}
-                  value={inputValue}
-                  onChange={(event) => setInputValue(event.target.value)}
-                  onKeyDown={(event) => postTodo(event)}
-                ></input>{" "}
+                {isDarkTheme ? (
+                  <i className="fas fa-regular fa-trash"></i>
+                ) : (
+                  <i className="fas fa-regular fa-trash"></i>
+                )}
+              </button>
               </div>
             </div>
             <div className="col-6">

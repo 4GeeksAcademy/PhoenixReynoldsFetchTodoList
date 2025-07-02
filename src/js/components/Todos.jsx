@@ -28,7 +28,7 @@ const Todos = ({ isDarkTheme, todo, getTodos }) => {
 
   return (
     <div
-      className="rounded row"
+      className="rounded row py-1 mb-2"
       style={{
         backdropFilter: "blur(10px)",
         backgroundColor: isDarkTheme
@@ -38,7 +38,11 @@ const Todos = ({ isDarkTheme, todo, getTodos }) => {
       }}
     >
       <div className="col-2" onClick={changeDone}>
-        {todo.is_done ? "☑" : "☐"}
+        {todo.is_done ? (
+                  <i className="text-color-primary fas fa-regular fa-square-check"></i>
+                ) : (
+                  <i className="text-color-black fas fa-regular fa-square"></i>
+                )}
       </div>
       <div className="col-8 d-flex justify-content-center">{todo.label}</div>
       <div className="col-2" onClick={deleteTodo}>
